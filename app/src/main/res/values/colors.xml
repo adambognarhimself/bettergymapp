@@ -7,4 +7,19 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="deep_navy">#0d1b2a</color>
+    <color name="top_app_bar">#e6e5e3</color>
+    <color name="beige">#f5f4f0</color>
+    <color name="happyblue">#01befe</color>
+    <color name="happyyellow">#ffdd00</color>
+    <color name="happygreen">#adff02</color>
+    <color name="happypink">#ff006d</color>
+    <color name="happyorange">#ff7d00</color>
+    <color name="happypurple">#8f00ff</color>
+
+
+
+
+
+
 </resources>
