@@ -3,4 +3,5 @@
     <string name="hello">Hello, %s!</string>
     <string name="ready">Ready to workout?</string>
     <string name="your_routines">Your routines</string>
+    <string name="no_routines">You don\'t have any routines yet!\nTry Adding one!</string>
 </resources>

@@ -8,30 +8,32 @@ import project.bettergymapp.data.Routine
 
 class MemoryRoutineRepository : IRoutineRepository {
 
-    private var list = mutableStateListOf(
-        Routine(
-            id = 1,
-            name = "Test1",
-            description = "Test1",
-            //exercises =
+//    private var list = mutableStateListOf(
+//        Routine(
+//            id = 1,
+//            name = "Test1",
+//            description = "Test1",
+//            //exercises =
+//
+//        ),
+//        Routine(
+//            id = 2,
+//            name = "Test2",
+//            description = "Test2",
+//            //exercises =
+//
+//        ),
+//        Routine(
+//            id = 3,
+//            name = "Test3",
+//            description = "Test3",
+//            //exercises =
+//
+//        ),
+//
+//    )
 
-        ),
-        Routine(
-            id = 2,
-            name = "Test2",
-            description = "Test2",
-            //exercises =
-
-        ),
-        Routine(
-            id = 3,
-            name = "Test3",
-            description = "Test3",
-            //exercises =
-
-        ),
-
-    )
+    private val list = mutableStateListOf<Routine>()
 
     override fun getAllRoutines(): Flow<List<Routine>> = flow {
         emit(list)

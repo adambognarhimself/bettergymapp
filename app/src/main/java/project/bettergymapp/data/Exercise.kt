@@ -1,7 +1,11 @@
 package project.bettergymapp.data
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "exercise")
 data class Exercise(
-    val id: Int,
-    val name: String,
-    val targetMuscleGroup: String,
+    @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) var id: Int? = null,
+    @ColumnInfo(name = "name") val name: String
 )

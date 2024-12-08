@@ -12,6 +12,5 @@ import project.bettergymapp.R
 fun GreetingPreview() {
     //MainScreen("Adam")
     RoutineCard("Push pull legs",
-        colorResource(id = R.color.happyblue),
-        10.dp)
+        colorResource(id = R.color.happyblue))
 }
