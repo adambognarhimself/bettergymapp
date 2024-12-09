@@ -66,7 +66,7 @@ class RoutineViewModel(
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                RoutineViewModel(repository = MainActivity.repository)
+                RoutineViewModel(repository = MainActivity.routineRepository)
             }
         }
     }

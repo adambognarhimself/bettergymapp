@@ -10,5 +10,5 @@ data class Routine(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val name: String,
     val description: String,
-    val exercises: List<Exercise>?
+    val exercises: List<Exercise> = emptyList()
 )

@@ -8,5 +8,6 @@ interface IRoutineRepository {
     suspend fun insert(routine: Routine)
     suspend fun delete(routine: Routine)
     suspend fun update(routine: Routine)
+    suspend fun deleteAll()
 
 }

@@ -3,7 +3,8 @@ package project.bettergymapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.room.Room
 import project.bettergymapp.data.Database
 import project.bettergymapp.data.repository.IExerciseRepository
@@ -39,7 +40,18 @@ class MainActivity : ComponentActivity() {
             sessionRepository = RoomSessionRepository(database.sessionDao())
 
 
+            //DeleteAllRoutines()
+
             MainScreen("Adam")
         }
     }
+
+    @Composable
+    fun DeleteAllRoutines() {
+        LaunchedEffect(Unit) {
+            routineRepository.deleteAll()
+        }
+
+    }
 }
+
