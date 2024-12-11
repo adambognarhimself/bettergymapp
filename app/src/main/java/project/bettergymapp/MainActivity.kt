@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
 
             //DeleteAllRoutines()
 
-            MainScreen("Adam")
+            MainScreen("User")
         }
     }
 
