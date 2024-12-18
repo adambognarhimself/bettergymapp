@@ -32,7 +32,6 @@ fun RoutineSelection(
     viewModel: RoutineViewModel = viewModel(factory = RoutineViewModel.Factory)
 ) {
     val list = viewModel.list.collectAsStateWithLifecycle().value
-    val pagerState = rememberPagerState(pageCount = { list.size })
     val colors = List(list.size) { index ->
         val colorResources = listOf(
             R.color.happyblue,
@@ -44,7 +43,7 @@ fun RoutineSelection(
         )
         colorResource(id = colorResources[index % colorResources.size])
     }
-    val showRoutineDialog = remember { mutableStateOf(false) }
+    val addRoutine = remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.padding(start = 10.dp, top = 20.dp, end = 10.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -58,7 +57,7 @@ fun RoutineSelection(
                 )
             )
             TextButton(
-                onClick = { showRoutineDialog.value = true }
+                onClick = { addRoutine.value = true }
             ) {
                 Text(text = "+", style = TextStyle(fontSize = 30.sp, color = Color.Black))
             }
@@ -67,17 +66,17 @@ fun RoutineSelection(
         if (list.isEmpty()) {
             EmptyRoutineList()
         } else {
-            RoutineList(list = list, colors = colors, pagerState = pagerState)
+            RoutineList(list = list, colors = colors)
         }
 
-        if (showRoutineDialog.value) {
+        if (addRoutine.value) {
             AddRoutineDialog(
-                onDismissRequest = { showRoutineDialog.value = false },
+                onDismissRequest = { addRoutine.value = false },
                 onConfirmation = { name ->
                     if (name != "") {
                         viewModel.insert(Routine(name = name, description = ""))
                     }
-                    showRoutineDialog.value = false
+                    addRoutine.value = false
                 }
             )
         }
