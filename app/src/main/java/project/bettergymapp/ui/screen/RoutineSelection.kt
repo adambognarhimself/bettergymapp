@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -29,7 +28,8 @@ import project.bettergymapp.data.viewmodel.RoutineViewModel
 
 @Composable
 fun RoutineSelection(
-    viewModel: RoutineViewModel = viewModel(factory = RoutineViewModel.Factory)
+    viewModel: RoutineViewModel = viewModel(factory = RoutineViewModel.Factory),
+    onStart: (Routine) -> Unit = {}
 ) {
     val list = viewModel.list.collectAsStateWithLifecycle().value
     val colors = List(list.size) { index ->
@@ -66,7 +66,7 @@ fun RoutineSelection(
         if (list.isEmpty()) {
             EmptyRoutineList()
         } else {
-            RoutineList(list = list, colors = colors)
+            RoutineList(list = list, colors = colors, onStart = onStart)
         }
 
         if (addRoutine.value) {

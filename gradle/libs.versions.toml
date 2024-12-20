@@ -8,14 +8,16 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.9.3"
-composeBom = "2024.11.00"
+composeBom = "2024.12.01"
 materialIconsExtended = "1.7.6"
-runtimeLivedata = "1.7.5"
-uiTextGoogleFonts = "1.7.5"
+runtimeLivedata = "1.7.6"
+uiTextGoogleFonts = "1.7.6"
 viewModel = "2.8.7"
 ksp = "2.0.0-1.0.22"
 room = "2.6.1"
 firebasePerfKtx = "21.0.3"
+navigationRuntimeKtx = "2.8.5"
+navigationCompose = "2.8.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -41,6 +43,9 @@ androidx-room-runtime = {group = "androidx.room", name="room-runtime", version.r
 androidx-room-compiler = {group = "androidx.room", name="room-compiler", version.ref= "room" }
 androidx-room-ktx = {group = "androidx.room", name="room-ktx", version.ref= "room" }
 firebase-perf-ktx = { group = "com.google.firebase", name = "firebase-perf-ktx", version.ref = "firebasePerfKtx" }
+androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+
 
 
 

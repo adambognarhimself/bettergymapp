@@ -13,7 +13,7 @@ import project.bettergymapp.data.repository.ISessionRepository
 import project.bettergymapp.data.repository.RoomExerciseRepository
 import project.bettergymapp.data.repository.RoomRoutinesRepository
 import project.bettergymapp.data.repository.RoomSessionRepository
-import project.bettergymapp.ui.screen.MainScreen
+import project.bettergymapp.ui.screen.NavGraph
 
 class MainActivity : ComponentActivity() {
 
@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
 
             //DeleteAllRoutines()
 
-            MainScreen("User")
+            NavGraph()
         }
     }
 

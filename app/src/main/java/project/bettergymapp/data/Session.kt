@@ -11,5 +11,5 @@ data class Session(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val date: LocalDate,
     val duration: Int,
-    val log: List<ExerciseLog>
+    val log: List<Exercise>
 )
