@@ -38,6 +38,7 @@ fun WorkoutPage(
     var exercises by remember { mutableStateOf(routine.exercises) }
     val addExercise = remember { mutableStateOf(false) }
     val showTimer = remember { mutableStateOf(false) }
+    var showTimerSettings by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier.fillMaxSize() // This allows stacking elements.
@@ -52,7 +53,7 @@ fun WorkoutPage(
                     viewModel.update(routine.copy(exercises = exercises))
                     navController.popBackStack()
                 },
-                onTimerClick = { /*TODO*/ }
+                onTimerClick = { showTimerSettings = true }
             )
 
             LazyColumn(
@@ -111,6 +112,10 @@ fun WorkoutPage(
                     .fillMaxWidth()
                     .padding(16.dp)
             )
+        }
+
+        if (showTimerSettings) {
+            TimerDialog { showTimerSettings = false }
         }
     }
 }
