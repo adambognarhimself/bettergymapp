@@ -34,6 +34,7 @@ fun WorkoutHeader(
     name: String,
     onFinish: () -> Unit,
     onTimerClick: () -> Unit,
+    onBack: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -47,11 +48,11 @@ fun WorkoutHeader(
         Row(modifier = Modifier.align(Alignment.CenterStart)) {
             IconButton(
                 modifier = Modifier.align(Alignment.CenterVertically),
-                onClick = { }
+                onClick = { onBack() }
             ) {
                 Icon(
                     imageVector = Icons.Default.ArrowBackIosNew,
-                    contentDescription = "Timer"
+                    contentDescription = "Back button"
                 )
             }
             Text(
@@ -118,6 +119,7 @@ fun WorkoutHeaderPreview() {
     WorkoutHeader(
         name = "Workout",
         onFinish = { },
-        onTimerClick = { }
+        onTimerClick = { },
+        onBack = { }
     )
 }

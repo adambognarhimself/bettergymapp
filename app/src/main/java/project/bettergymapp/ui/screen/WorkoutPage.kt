@@ -58,7 +58,8 @@ fun WorkoutPage(
                     viewModel.update(routine.copy(exercises = exercises))
                     navController.popBackStack()
                 },
-                onTimerClick = { showTimerSettings = true }
+                onTimerClick = { showTimerSettings = true },
+                onBack = { navController.popBackStack() }
             )
 
             LazyColumn(
@@ -106,7 +107,7 @@ fun WorkoutPage(
                 )
             }
         }
-        
+
         if(!isSwitched){
             showTimer.value = false
         }
