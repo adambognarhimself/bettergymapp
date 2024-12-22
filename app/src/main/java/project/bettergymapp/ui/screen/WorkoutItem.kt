@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -38,7 +40,8 @@ import project.bettergymapp.data.ExerciseLog
 @Composable
 fun WorkoutItem(
     exercise: Exercise,
-    onUpdate: (Exercise) -> Unit = {}
+    onUpdate: (Exercise) -> Unit = {},
+    onDoneClick: () -> Unit = {}
 ) {
 
     var logs by remember { mutableStateOf(exercise.lastLog?.sets?.toList() ?: listOf()) }
@@ -80,10 +83,10 @@ fun WorkoutItem(
                 .padding( bottom = 18.dp)
         ) {
             Text(text = "SET", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
-            Text(text = "Previous", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+            Text(text = "PREVIOUS", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
             Text(text = "KG", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
             Text(text = "REPS", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
-            Text(text = "tick", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+            Text(text = "DONE", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
         }
 
         logs.forEachIndexed { index, log ->
@@ -95,12 +98,15 @@ fun WorkoutItem(
                         val kgValue = if (kg.isEmpty()) log.second else kg.toInt()
                         val repsValue = if (reps.isEmpty()) log.first else reps.toInt()
                         newLogs.add(repsValue to kgValue)
+                        onDoneClick()
                     } else {
                         newLogs.removeIf { it.first == log.first && it.second == log.second }
                     }
                     val updatedExercise = exercise.copy(lastLog = ExerciseLog(sets = newLogs.toList()))
                     onUpdate(updatedExercise)
-                }
+
+                },
+
             )
         }
 
@@ -134,12 +140,12 @@ private fun DataRow(
     ) {
         Text(
             text = setNumber.toString(),
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f).height(24.dp),
             textAlign = TextAlign.Center
         )
         Text(
             text = "${previous.second}kg x ${previous.first}",
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f).height(24.dp),
             textAlign = TextAlign.Center,
             style = TextStyle(color = Color.Gray)
 
@@ -156,21 +162,20 @@ private fun DataRow(
             placeholder = previous.first.toString(),
             modifier = Modifier.weight(1f)
         )
-        Checkbox(
-            checked = isChecked,
-            onCheckedChange = {
-                isChecked = it
+        IconButton(
+            onClick = {
+                isChecked = !isChecked
                 onTick(kgInput, repsInput, isChecked)
 
             },
-            colors = CheckboxDefaults.colors(
-                checkedColor = Color.Green,
-                uncheckedColor = Color.Gray
-            ),
-            modifier = Modifier
-                .weight(1f)
-                .height(24.dp)
-        )
+            modifier = Modifier.weight(1f).height(24.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.CheckCircle,
+                contentDescription = "Done",
+                tint = if (isChecked) Color.Green else Color.Black
+            )
+        }
     }
 }
 
@@ -188,6 +193,7 @@ fun PlaceholderTextField(
             Text(
                 text = placeholder,
                 style = textStyle.copy(color = Color.Gray),
+                modifier = Modifier.height(24.dp).fillMaxWidth(),
 
             )
         }
@@ -195,7 +201,7 @@ fun PlaceholderTextField(
             value = value,
             onValueChange = onValueChange,
             textStyle = textStyle,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().height(24.dp),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
         )
     }

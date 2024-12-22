@@ -1,5 +1,7 @@
 package project.bettergymapp.ui.screen
 
+import Timer
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,9 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
@@ -33,72 +37,109 @@ fun WorkoutPage(
     viewModel: RoutineViewModel = viewModel(factory = RoutineViewModel.Factory),
 ) {
     var exercises by remember { mutableStateOf(routine.exercises) }
-    var addExercise = remember { mutableStateOf(false) }
+    val addExercise = remember { mutableStateOf(false) }
+    val showTimer = remember { mutableStateOf(false) }
+    var showTimerSettings by remember { mutableStateOf(false) }
+    var isSwitched by remember { mutableStateOf(true) }
+    var timerTime by remember { mutableIntStateOf(120) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
+
+
+    Box(
+        modifier = Modifier.fillMaxSize() // This allows stacking elements.
     ) {
-        WorkoutHeader(
-            name = routine.name,
-            onFinish = {
-                viewModel.update(routine.copy(exercises = exercises))
-                navController.popBackStack()
-            },
-            onTimerClick = { /*TODO*/ }
-        )
-
-        LazyColumn(
-
+        // Main content
+        Column(
+            modifier = Modifier.fillMaxSize()
         ) {
-            items(exercises.size) { index ->
-                WorkoutItem(
-                    exercise = exercises[index],
-                    onUpdate = { updatedExercise ->
-                        exercises = exercises.toMutableList().apply {
-                            set(index, updatedExercise)
-                        }
-                    }
-                    )
-            }
+            WorkoutHeader(
+                name = routine.name,
+                onFinish = {
+                    viewModel.update(routine.copy(exercises = exercises))
+                    navController.popBackStack()
+                },
+                onTimerClick = { showTimerSettings = true }
+            )
 
-            item {
-                TextButton(
-                    onClick = { addExercise.value = true },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp, bottom = 10.dp),
-                )
-                {
-                    Text(
-                        text = "Add new exercise",
-                        style = TextStyle(
-                            fontSize = 15.sp,
-                            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                            color = colorResource(id = R.color.happyblue)
-                        ),
-                        textAlign = TextAlign.Center
+            LazyColumn(
+                modifier = Modifier.weight(1f) // Allows LazyColumn to take up remaining space.
+            ) {
+                items(exercises.size) { index ->
+                    WorkoutItem(
+                        exercise = exercises[index],
+                        onUpdate = { updatedExercise ->
+                            exercises = exercises.toMutableList().apply {
+                                set(index, updatedExercise)
+                            }
+                        },
+                        onDoneClick = { showTimer.value = true }
                     )
                 }
+
+                item {
+                    TextButton(
+                        onClick = { addExercise.value = true },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 20.dp, bottom = 10.dp),
+                    ) {
+                        Text(
+                            text = "Add new exercise",
+                            style = TextStyle(
+                                fontSize = 15.sp,
+                                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                                color = colorResource(id = R.color.happyblue)
+                            ),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
+
+            if (addExercise.value) {
+                AddExerciseDialog(
+                    onDismissRequest = { addExercise.value = false },
+                    onConfirmation = { name ->
+                        exercises = exercises + Exercise(name = name)
+                        addExercise.value = false
+                    }
+                )
             }
         }
+        
+        if(!isSwitched){
+            showTimer.value = false
+        }
 
-
-
-        if (addExercise.value) {
-            AddExerciseDialog(
-                onDismissRequest = { addExercise.value = false },
-                onConfirmation = {
-                    name -> exercises = exercises + Exercise(name = name)
-                    addExercise.value = false
-                }
+        // Timer at the bottom
+        if (showTimer.value && isSwitched) {
+            Timer(
+                initialTime = timerTime,
+                onDismiss = { showTimer.value = false },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter) // Aligns the timer to the bottom.
+                    .fillMaxWidth()
+                    .padding(16.dp)
             )
         }
 
-
+        if (showTimerSettings) {
+            TimerDialog(
+                onDismissRequest = { showTimerSettings = false },
+                modifier = Modifier
+                    .align(Alignment.Center),
+                onSwitchChange = { isChecked ->
+                    isSwitched = isChecked
+                },
+                onTimeChange = { time ->
+                    timerTime = time
+                },
+                initialTime = timerTime,
+                switchState = isSwitched
+            )
+        }
     }
 }
-
 
 
 
