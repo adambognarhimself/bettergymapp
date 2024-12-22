@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -39,6 +40,10 @@ fun WorkoutPage(
     val addExercise = remember { mutableStateOf(false) }
     val showTimer = remember { mutableStateOf(false) }
     var showTimerSettings by remember { mutableStateOf(false) }
+    var isSwitched by remember { mutableStateOf(true) }
+    var timerTime by remember { mutableIntStateOf(120) }
+
+
 
     Box(
         modifier = Modifier.fillMaxSize() // This allows stacking elements.
@@ -101,11 +106,15 @@ fun WorkoutPage(
                 )
             }
         }
+        
+        if(!isSwitched){
+            showTimer.value = false
+        }
 
         // Timer at the bottom
-        if (showTimer.value) {
+        if (showTimer.value && isSwitched) {
             Timer(
-                initialTime = 120,
+                initialTime = timerTime,
                 onDismiss = { showTimer.value = false },
                 modifier = Modifier
                     .align(Alignment.BottomCenter) // Aligns the timer to the bottom.
@@ -115,7 +124,19 @@ fun WorkoutPage(
         }
 
         if (showTimerSettings) {
-            TimerDialog { showTimerSettings = false }
+            TimerDialog(
+                onDismissRequest = { showTimerSettings = false },
+                modifier = Modifier
+                    .align(Alignment.Center),
+                onSwitchChange = { isChecked ->
+                    isSwitched = isChecked
+                },
+                onTimeChange = { time ->
+                    timerTime = time
+                },
+                initialTime = timerTime,
+                switchState = isSwitched
+            )
         }
     }
 }
