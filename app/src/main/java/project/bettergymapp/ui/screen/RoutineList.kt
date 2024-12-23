@@ -15,8 +15,13 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -149,16 +154,22 @@ fun RoutineList(
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             if (!editSelected.value) {
-                Button(
+
+                IconButton(
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = paddingBetweenButtons)
                         .size(buttonSize),
-                    onClick = { /* TODO: Handle button 1 click */ },
-                    shape = RoundedCornerShape(cornerRadius),
-                    colors = ButtonDefaults.buttonColors(colorResource(id = R.color.happyblue))
+                    onClick = {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            MainActivity.routineRepository.delete(list[pagerState.currentPage])
+                        }
+                    }
                 ) {
-                    Text(text = "Del", color = Color.Black)
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Delete"
+                    )
                 }
             }
             if (!editSelected.value) {
@@ -185,7 +196,7 @@ fun RoutineList(
                 }
             }
 
-            Button(
+            IconButton(
                 modifier = Modifier
                     .weight(1f)
                     .padding(start = paddingBetweenButtons)
@@ -193,11 +204,12 @@ fun RoutineList(
                 onClick = {
                     editSelected.value = !editSelected.value
                     addExercise.value = false
-                },
-                shape = RoundedCornerShape(cornerRadius),
-                colors = ButtonDefaults.buttonColors(colors[pagerState.currentPage])
+                }
             ) {
-                Text(text = "Edit", color = Color.Black)
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Edit"
+                )
             }
         }
     }

@@ -24,6 +24,9 @@ fun NavGraph(
                     val routineJson = Gson().toJson(routine)
                     navController.navigate("workout/$routineJson")
                 },
+                onNavigateToRoutineAdd = {
+                    navController.navigate("routine add")
+                }
             )
         }
 
@@ -33,7 +36,19 @@ fun NavGraph(
         ) { backStackEntry ->
             val routineJson = backStackEntry.arguments?.getString("routine")
             val routine = Gson().fromJson(routineJson, Routine::class.java)
-            WorkoutPage(routine, navController)
+            WorkoutPage(routine,
+                onNavigateBack = {
+                    navController.navigate("home")
+                }
+            )
+        }
+
+        composable("routine add") {
+            RoutineEditScreen(
+                onNavigateBack = {
+                    navController.navigate("home")
+                }
+            )
         }
     }
 }

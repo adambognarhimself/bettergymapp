@@ -1,6 +1,7 @@
 package project.bettergymapp.ui.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ExerciseCard(
     name: String,
+    onClick: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -27,7 +29,10 @@ fun ExerciseCard(
             .height(60.dp)
             .fillMaxWidth().
             clip(RoundedCornerShape(8.dp))
-            .background(color = androidx.compose.ui.graphics.Color(0xFFE0E0E0)),
+            .background(color = androidx.compose.ui.graphics.Color(0xFFE0E0E0))
+            .clickable(onClick = {
+                onClick()
+            }),
         contentAlignment = Alignment.CenterStart
     ) {
         Text(

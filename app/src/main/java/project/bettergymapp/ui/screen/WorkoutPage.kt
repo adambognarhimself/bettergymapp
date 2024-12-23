@@ -24,7 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import project.bettergymapp.R
 import project.bettergymapp.data.Exercise
 import project.bettergymapp.data.Routine
@@ -33,7 +32,7 @@ import project.bettergymapp.data.viewmodel.RoutineViewModel
 @Composable
 fun WorkoutPage(
     routine: Routine,
-    navController: NavController,
+    onNavigateBack: () -> Unit,
     viewModel: RoutineViewModel = viewModel(factory = RoutineViewModel.Factory),
 ) {
     var exercises by remember { mutableStateOf(routine.exercises) }
@@ -56,10 +55,10 @@ fun WorkoutPage(
                 name = routine.name,
                 onFinish = {
                     viewModel.update(routine.copy(exercises = exercises))
-                    navController.popBackStack()
+                    onNavigateBack()
                 },
                 onTimerClick = { showTimerSettings = true },
-                onBack = { navController.popBackStack() }
+                onBack = { onNavigateBack() }
             )
 
             LazyColumn(
