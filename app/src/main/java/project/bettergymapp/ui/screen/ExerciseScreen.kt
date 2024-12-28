@@ -31,6 +31,7 @@ import project.bettergymapp.data.Exercise
 @Composable
 fun ExerciseScreen(
     added: (Exercise) -> Unit = {},
+    onNavigateBack: () -> Unit = {}
 
 ) {
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
@@ -41,7 +42,9 @@ fun ExerciseScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        RoutineEditHeader(onNavigateBack = {})
+        RoutineEditHeader(onNavigateBack = {
+            onNavigateBack()
+        })
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = searchQuery,

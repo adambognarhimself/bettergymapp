@@ -26,6 +26,9 @@ fun NavGraph(
                 },
                 onNavigateToRoutineAdd = {
                     navController.navigate("routine add")
+                },
+                onNavigateToExerciseAdd = {
+                    navController.navigate("exercise add")
                 }
             )
         }
@@ -47,6 +50,19 @@ fun NavGraph(
             RoutineEditScreen(
                 onNavigateBack = {
                     navController.navigate("home")
+                },
+                onNavigateToExerciseScreen = {
+                    navController.navigate("exercise add")
+                }
+            )
+        }
+        composable("exercise add") {
+            ExerciseScreen(
+                added = {
+
+                },
+                onNavigateBack = {
+                    navController.popBackStack()
                 }
             )
         }

@@ -36,7 +36,8 @@ import project.bettergymapp.data.Exercise
 
 @Composable
 fun RoutineEditScreen(
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
+    onNavigateToExerciseScreen: () -> Unit = {}
 ) {
     var routineName by remember { mutableStateOf("") }
     val exercises by remember { mutableStateOf(listOf<Exercise>()) }
@@ -69,7 +70,9 @@ fun RoutineEditScreen(
 
             item{
                 TextButton(
-                    onClick = { },
+                    onClick = {
+                        onNavigateToExerciseScreen()
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 20.dp, bottom = 10.dp),

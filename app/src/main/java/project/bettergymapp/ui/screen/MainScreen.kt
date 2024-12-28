@@ -12,7 +12,8 @@ import project.bettergymapp.data.Routine
 @Composable
 fun MainScreen(
     onNavigateToWorkout: (routine: Routine) -> Unit = {},
-    onNavigateToRoutineAdd: () -> Unit = {}
+    onNavigateToRoutineAdd: () -> Unit = {},
+    onNavigateToExerciseAdd: () -> Unit = {}
 ){
 
 
@@ -21,6 +22,6 @@ fun MainScreen(
     )
     {
         TopAppBar("username")
-        RoutineSelection(onStart = onNavigateToWorkout, onNavigateToRoutineAdd = onNavigateToRoutineAdd)
+        RoutineSelection(onStart = onNavigateToWorkout, onNavigateToRoutineAdd = onNavigateToRoutineAdd, onNavigateToExerciseAdd = onNavigateToExerciseAdd)
     }
 }

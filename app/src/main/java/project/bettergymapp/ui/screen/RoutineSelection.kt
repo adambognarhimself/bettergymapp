@@ -33,6 +33,7 @@ import project.bettergymapp.data.viewmodel.RoutineViewModel
 @Composable
 fun RoutineSelection(
     onNavigateToRoutineAdd: () -> Unit,
+    onNavigateToExerciseAdd: () -> Unit,
     viewModel: RoutineViewModel = viewModel(factory = RoutineViewModel.Factory),
     onStart: (Routine) -> Unit = {}
 ) {
@@ -79,7 +80,7 @@ fun RoutineSelection(
         if (list.isEmpty()) {
             EmptyRoutineList()
         } else {
-            RoutineList(list = list, colors = colors, onStart = onStart)
+            RoutineList(list = list, colors = colors, onStart = onStart, onNavigateToExerciseAdd = onNavigateToExerciseAdd)
         }
 
         if (addRoutine.value) {

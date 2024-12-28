@@ -47,7 +47,9 @@ import project.bettergymapp.data.Routine
 fun RoutineList(
     list: List<Routine>,
     colors: List<Color>,
-    onStart: (Routine) -> Unit = {}) {
+    onStart: (Routine) -> Unit = {},
+    onNavigateToExerciseAdd: () -> Unit = {}
+) {
     val cornerRadius = 35
     val buttonSize = 55.dp
     val paddingBetweenButtons = 15.dp
@@ -188,7 +190,9 @@ fun RoutineList(
                     modifier = Modifier
                         .weight(2f)
                         .size(buttonSize),
-                    onClick = { addExercise.value = !addExercise.value },
+                    onClick = {
+                        onNavigateToExerciseAdd()
+                    },
                     shape = RoundedCornerShape(cornerRadius),
                     colors = ButtonDefaults.buttonColors(colorResource(id = R.color.happyblue))
                 ) {
