@@ -42,9 +42,12 @@ class MainActivity : ComponentActivity() {
 
             //DeleteAllRoutines()
 
+
             NavGraph()
         }
     }
+
+
 
     @Composable
     fun DeleteAllRoutines() {

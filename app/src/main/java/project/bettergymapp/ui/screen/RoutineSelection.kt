@@ -5,8 +5,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,6 +32,8 @@ import project.bettergymapp.data.viewmodel.RoutineViewModel
 
 @Composable
 fun RoutineSelection(
+    onNavigateToRoutineAdd: () -> Unit,
+    onNavigateToExerciseAdd: (routine: Routine) -> Unit,
     viewModel: RoutineViewModel = viewModel(factory = RoutineViewModel.Factory),
     onStart: (Routine) -> Unit = {}
 ) {
@@ -56,17 +62,25 @@ fun RoutineSelection(
                     fontSize = 25.sp
                 )
             )
-            TextButton(
-                onClick = { addRoutine.value = true }
+            IconButton(
+                onClick = {
+                    onNavigateToRoutineAdd()
+                },
+                modifier = Modifier.size(48.dp) // Adjust the size as needed
             ) {
-                Text(text = "+", style = TextStyle(fontSize = 30.sp, color = Color.Black))
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = "Add Routine",
+                    modifier = Modifier.size(30.dp), // Adjust the size as needed
+                    tint = Color.Black // Adjust the color as needed
+                )
             }
         }
 
         if (list.isEmpty()) {
             EmptyRoutineList()
         } else {
-            RoutineList(list = list, colors = colors, onStart = onStart)
+            RoutineList(list = list, colors = colors, onStart = onStart, onNavigateToExerciseAdd = onNavigateToExerciseAdd)
         }
 
         if (addRoutine.value) {
