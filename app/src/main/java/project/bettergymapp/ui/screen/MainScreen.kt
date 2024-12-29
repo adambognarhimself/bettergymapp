@@ -13,7 +13,7 @@ import project.bettergymapp.data.Routine
 fun MainScreen(
     onNavigateToWorkout: (routine: Routine) -> Unit = {},
     onNavigateToRoutineAdd: () -> Unit = {},
-    onNavigateToExerciseAdd: () -> Unit = {}
+    onNavigateToExerciseAdd: (routine: Routine) -> Unit = {}
 ){
 
 

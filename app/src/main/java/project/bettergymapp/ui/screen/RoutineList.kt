@@ -48,7 +48,7 @@ fun RoutineList(
     list: List<Routine>,
     colors: List<Color>,
     onStart: (Routine) -> Unit = {},
-    onNavigateToExerciseAdd: () -> Unit = {}
+    onNavigateToExerciseAdd: (routine: Routine) -> Unit = {}
 ) {
     val cornerRadius = 35
     val buttonSize = 55.dp
@@ -191,7 +191,7 @@ fun RoutineList(
                         .weight(2f)
                         .size(buttonSize),
                     onClick = {
-                        onNavigateToExerciseAdd()
+                        onNavigateToExerciseAdd(list[pagerState.currentPage])
                     },
                     shape = RoundedCornerShape(cornerRadius),
                     colors = ButtonDefaults.buttonColors(colorResource(id = R.color.happyblue))

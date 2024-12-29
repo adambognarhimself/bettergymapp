@@ -33,11 +33,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import project.bettergymapp.R
 import project.bettergymapp.data.Exercise
+import project.bettergymapp.data.Routine
 
 @Composable
 fun RoutineEditScreen(
+    routine: Routine,
     onNavigateBack: () -> Unit = {},
-    onNavigateToExerciseScreen: () -> Unit = {}
+    onNavigateToExerciseScreen: (routine: Routine) -> Unit = {}
 ) {
     var routineName by remember { mutableStateOf("") }
     val exercises by remember { mutableStateOf(listOf<Exercise>()) }
@@ -71,7 +73,7 @@ fun RoutineEditScreen(
             item{
                 TextButton(
                     onClick = {
-                        onNavigateToExerciseScreen()
+                        onNavigateToExerciseScreen(routine)
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -134,5 +136,6 @@ fun RoutineEditHeader(
 @Composable
 fun RoutineEditScreenPreview() {
     RoutineEditScreen(
+        routine = Routine(name = "Routine 1", description = "", exercises = listOf())
     )
 }

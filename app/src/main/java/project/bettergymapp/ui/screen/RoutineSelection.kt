@@ -33,7 +33,7 @@ import project.bettergymapp.data.viewmodel.RoutineViewModel
 @Composable
 fun RoutineSelection(
     onNavigateToRoutineAdd: () -> Unit,
-    onNavigateToExerciseAdd: () -> Unit,
+    onNavigateToExerciseAdd: (routine: Routine) -> Unit,
     viewModel: RoutineViewModel = viewModel(factory = RoutineViewModel.Factory),
     onStart: (Routine) -> Unit = {}
 ) {
