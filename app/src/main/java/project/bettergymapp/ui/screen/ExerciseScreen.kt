@@ -69,9 +69,12 @@ fun ExerciseScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        RoutineEditHeader(onNavigateBack = {
-            onNavigateBack()
-        })
+        RoutineEditHeader(
+            onNavigateBack = {
+                onNavigateBack()
+            },
+            onSaved = {}
+        )
         Spacer(modifier = Modifier.height(8.dp))
         Row(
             modifier = Modifier
