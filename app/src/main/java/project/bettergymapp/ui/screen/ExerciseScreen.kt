@@ -48,7 +48,8 @@ import retrofit2.Response
 @Composable
 fun ExerciseScreen(
     routine: Routine,
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
+    onSelected:(Routine) -> Unit
 
 ) {
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
@@ -133,7 +134,9 @@ fun ExerciseScreen(
                         val updatedExercises = routine.exercises.toMutableList()
                         updatedExercises.add(Exercise(name = exercises[exercise].name))
                         val updatedRoutine = routine.copy(exercises = updatedExercises)
-                        updateRoutineInDatabase(updatedRoutine)
+                        //updateRoutineInDatabase(updatedRoutine)
+
+                        onSelected(updatedRoutine)
                         onNavigateBack()
 
                     }
@@ -189,6 +192,7 @@ fun ExerciseScreenPreview() {
             id = 1,
             description = "TODO()"
         ),
-        onNavigateBack = {}
+        onNavigateBack = {},
+        onSelected = {}
     )
 }

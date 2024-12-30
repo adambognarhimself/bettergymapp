@@ -1,5 +1,6 @@
 package project.bettergymapp.ui.screen
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -8,6 +9,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import project.bettergymapp.MainActivity
 import project.bettergymapp.data.Routine
 
 @Composable
@@ -49,20 +54,21 @@ fun NavGraph(
         }
 
         composable(
-            "routine add")
-        {
+            "routine add"
+        ) {
             RoutineEditScreen(
                 onNavigateBack = {
                     navController.navigate("home")
                 },
                 onNavigateToExerciseScreen = { routine ->
-                    val routineJson = Gson().toJson(routine)
-                    navController.navigate("exercise add/$routineJson")
+                    val routineJson2 = Gson().toJson(routine)
+                    navController.navigate("exercise add/$routineJson2")
                 },
                 routine = Routine(
                     name = "",
                     description = ""
-                )
+                ),
+                navController = navController
             )
         }
 
@@ -75,6 +81,29 @@ fun NavGraph(
                 routine = routine,
                 onNavigateBack = {
                     navController.popBackStack()
+                },
+                onSelected = { update ->
+                    val previousBackStackEntry = navController.previousBackStackEntry
+                    val previousRoute = previousBackStackEntry?.destination?.route
+
+                    if (previousRoute != null) {
+                        // Do something based on the previous route
+                        when (previousRoute) {
+                            "home" -> {
+                                // Handle the case when the previous screen was "home"
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    MainActivity.routineRepository.update(update)
+                                }
+                            }
+                            "routine add" -> {
+                                // Handle the case when the previous screen was "routine add"
+                                val updateRoutineJson = Gson().toJson(update)
+                                previousBackStackEntry.savedStateHandle.set("updatedRoutine", updateRoutineJson)
+                                Log.d("NavGraph", "Updated routine: ${update.exercises.joinToString { it.name }}")
+                            }
+                            // Add more cases as needed
+                        }
+                    }
                 }
             )
         }

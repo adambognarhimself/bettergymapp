@@ -1,5 +1,6 @@
 package project.bettergymapp.ui.screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +18,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -31,18 +34,36 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.google.gson.Gson
 import project.bettergymapp.R
-import project.bettergymapp.data.Exercise
 import project.bettergymapp.data.Routine
 
 @Composable
 fun RoutineEditScreen(
     routine: Routine,
     onNavigateBack: () -> Unit = {},
-    onNavigateToExerciseScreen: (routine: Routine) -> Unit = {}
+    onNavigateToExerciseScreen: (routine: Routine) -> Unit = {},
+    navController: NavController,
 ) {
-    var routineName by remember { mutableStateOf("") }
-    val exercises by remember { mutableStateOf(listOf<Exercise>()) }
+    var routineName by remember { mutableStateOf(routine.name) }
+    var exercises by remember { mutableStateOf(routine.exercises) }
+
+    val savedStateHandle = navController.currentBackStackEntry?.savedStateHandle
+
+    savedStateHandle?.getLiveData<String>("updatedRoutine")?.observeAsState()?.value?.let { routineJson ->
+        val updatedRoutine = Gson().fromJson(routineJson, Routine::class.java)
+        routineName = updatedRoutine.name
+        exercises = updatedRoutine.exercises
+        savedStateHandle.remove<String>("updatedRoutine")
+        Log.d("RoutineEditScreen", "haló")
+    }
+
+    LaunchedEffect(exercises) {
+        Log.d("RoutineEditScreen", "Exercises: ${exercises.joinToString { it.name }}")
+    }
+
 
     Column(
         modifier = Modifier
@@ -73,7 +94,7 @@ fun RoutineEditScreen(
             item{
                 TextButton(
                     onClick = {
-                        onNavigateToExerciseScreen(routine)
+                        onNavigateToExerciseScreen(routine.copy(name = routineName, exercises = exercises))
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -136,6 +157,9 @@ fun RoutineEditHeader(
 @Composable
 fun RoutineEditScreenPreview() {
     RoutineEditScreen(
-        routine = Routine(name = "Routine 1", description = "", exercises = listOf())
+        routine = Routine(name = "Routine 1", description = "", exercises = listOf()),
+        onNavigateBack = {},
+        onNavigateToExerciseScreen = {},
+        navController = rememberNavController()
     )
 }
