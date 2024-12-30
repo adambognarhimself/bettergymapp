@@ -37,6 +37,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import project.bettergymapp.MainActivity
 import project.bettergymapp.R
 import project.bettergymapp.data.Routine
 
@@ -69,12 +73,22 @@ fun RoutineEditScreen(
         modifier = Modifier
             .fillMaxSize()) {
 
-        RoutineEditHeader(onNavigateBack)
+        RoutineEditHeader(
+            onNavigateBack = onNavigateBack,
+            onSaved = {
+                CoroutineScope(Dispatchers.IO).launch {
+                    MainActivity.routineRepository.insert(Routine(
+                        name = routineName, exercises = exercises,
+                        description = ""
+                    ))
+                }
+            }
+        )
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = routineName,
-            onValueChange = {
-                routineName = it
+            onValueChange = { newValue ->
+                routineName = newValue
             },
             label = { Text("Routine name") },
             colors = OutlinedTextFieldDefaults.colors(unfocusedContainerColor = colorResource(id = R.color.top_app_bar))
@@ -119,7 +133,8 @@ fun RoutineEditScreen(
 
 @Composable
 fun RoutineEditHeader(
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onSaved: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -146,7 +161,10 @@ fun RoutineEditHeader(
         )
 
         TextButton(
-            onClick = { }
+            onClick = {
+                onSaved()
+                onNavigateBack()
+            }
         ) {
             Text(text = "Save")
         }
