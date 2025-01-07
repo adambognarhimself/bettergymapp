@@ -14,6 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import project.bettergymapp.MainActivity
 import project.bettergymapp.data.Routine
+import project.bettergymapp.ui.screen.sign_in.LoginPage
+import project.bettergymapp.ui.screen.sign_up.RegisterPage
 
 @Composable
 fun NavGraph(
@@ -21,7 +23,7 @@ fun NavGraph(
 ){
     NavHost(
         navController = navController,
-        startDestination = "home"
+        startDestination = "login"
     ){
         composable("home") {
             MainScreen(
@@ -105,6 +107,22 @@ fun NavGraph(
                         }
                     }
                 }
+            )
+        }
+
+        composable("login") {
+            LoginPage(
+                onLoginClick = { destination ->
+                    navController.navigate(destination)
+                },
+            )
+        }
+
+        composable("sign up") {
+            RegisterPage(
+                onRegisterClick = { destination ->
+                    navController.navigate(destination)
+                },
             )
         }
     }

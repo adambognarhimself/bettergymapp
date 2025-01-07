@@ -13,7 +13,10 @@ import project.bettergymapp.data.repository.ISessionRepository
 import project.bettergymapp.data.repository.RoomExerciseRepository
 import project.bettergymapp.data.repository.RoomRoutinesRepository
 import project.bettergymapp.data.repository.RoomSessionRepository
+import project.bettergymapp.data.service.AccountService
+import project.bettergymapp.data.service.AccountServiceImpl
 import project.bettergymapp.ui.screen.NavGraph
+
 
 class MainActivity : ComponentActivity() {
 
@@ -21,11 +24,14 @@ class MainActivity : ComponentActivity() {
         lateinit var routineRepository: IRoutineRepository
         lateinit var exerciseRepository: IExerciseRepository
         lateinit var sessionRepository: ISessionRepository
+        lateinit var accountService: AccountService
 
         private lateinit var database : Database
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContent {
 
@@ -38,7 +44,7 @@ class MainActivity : ComponentActivity() {
             routineRepository = RoomRoutinesRepository(database.routineDao())
             exerciseRepository = RoomExerciseRepository(database.exerciseDao())
             sessionRepository = RoomSessionRepository(database.sessionDao())
-
+            accountService = AccountServiceImpl()
 
             //DeleteAllRoutines()
 

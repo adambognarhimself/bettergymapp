@@ -1,5 +1,6 @@
 package project.bettergymapp.ui.screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -55,12 +56,14 @@ fun ExerciseScreen(
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
     var exercises by remember { mutableStateOf(listOf<ExerciseFromApi>()) }
     val muscles = listOf("Chest", "Back", "Legs", "Shoulders", "Biceps", "Triceps", "Abs")
-    var filterOpen by remember { mutableStateOf(true) }
+    var filterOpen by remember { mutableStateOf(false) }
     var selectedButton by remember { mutableStateOf<String?>(null) }
+
+
 
     LaunchedEffect(searchQuery.text, selectedButton) {
         fetch(searchQuery.text, selectedButton) { fetchedExercises ->
-            exercises = fetchedExercises
+            exercises = fetchedExercises.sortedBy { it.name }
         }
     }
 
@@ -125,6 +128,7 @@ fun ExerciseScreen(
                         isSelected = selectedButton == muscles[muscle],
                         onClick = {
                             selectedButton = if (selectedButton == muscles[muscle]) null else muscles[muscle]
+                            Log.d("ExerciseScreen", "Selected button: $selectedButton")
                         }
                     )
                 }
