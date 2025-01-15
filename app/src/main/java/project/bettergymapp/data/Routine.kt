@@ -7,8 +7,8 @@ import androidx.room.TypeConverters
 @Entity(tableName = "routine")
 @TypeConverters(Converters::class)
 data class Routine(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val name: String,
-    val description: String,
+    var id: String = "",
+    var name: String = "",
+    var description: String = "",
     var exercises: List<Exercise> = emptyList()
 )

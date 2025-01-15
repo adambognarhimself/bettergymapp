@@ -6,6 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.room.Room
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.firestore
 import project.bettergymapp.data.Database
 import project.bettergymapp.data.repository.IExerciseRepository
 import project.bettergymapp.data.repository.IRoutineRepository
@@ -48,6 +51,26 @@ class MainActivity : ComponentActivity() {
 
             //DeleteAllRoutines()
 
+            val db = Firebase.firestore
+            val auth = FirebaseAuth.getInstance().currentUser
+
+
+
+
+//            val user = hashMapOf(
+//                "first" to "Ada",
+//                "last" to "Lovelace",
+//                "born" to 1815,
+//            )
+//
+//            db.collection("users")
+//                .add(user)
+//                .addOnSuccessListener { documentReference ->
+//                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+//                }
+//                .addOnFailureListener { e ->
+//                    Log.w(TAG, "Error adding document", e)
+//                }
 
             NavGraph()
         }

@@ -8,8 +8,8 @@ import java.time.LocalDate
 @Entity(tableName = "session")
 @TypeConverters(Converters::class)
 data class Session(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val date: LocalDate,
-    val duration: Int,
-    val log: List<Exercise>
+    var id: String = "",
+    var date: LocalDate = LocalDate.now(),
+    var duration: Int = 0,
+    var log: List<Exercise> = emptyList()
 )

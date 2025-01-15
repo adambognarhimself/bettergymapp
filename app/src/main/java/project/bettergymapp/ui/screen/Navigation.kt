@@ -16,14 +16,17 @@ import project.bettergymapp.MainActivity
 import project.bettergymapp.data.Routine
 import project.bettergymapp.ui.screen.sign_in.LoginPage
 import project.bettergymapp.ui.screen.sign_up.RegisterPage
+import project.bettergymapp.ui.screen.splash.SplashScreen
 
 @Composable
 fun NavGraph(
     navController: NavHostController = rememberNavController(),
+    startDestination: String,
+
 ){
     NavHost(
         navController = navController,
-        startDestination = "login"
+        startDestination = "splash"
     ){
         composable("home") {
             MainScreen(
@@ -123,6 +126,14 @@ fun NavGraph(
                 onRegisterClick = { destination ->
                     navController.navigate(destination)
                 },
+            )
+        }
+
+        composable("splash") {
+            SplashScreen(
+                openAndPopUp = { destination ->
+                    navController.navigate(destination)
+                }
             )
         }
     }
